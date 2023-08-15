@@ -1,9 +1,42 @@
 import React from 'react'
 
-const AIPicker = () => {
+import CustomButton from './CustomButton'
+
+
+const AIPicker = ({ prompt, setPrompt, generatingImg, handleSubmit}) => {
   return (
-    <div>
-      AIPicker
+    <div className='aipicker-container'>
+      <textarea
+        placeholder='Enter a prompt for the AI to generate an image from'
+        className='aipicker-textarea'
+        rows={5}
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
+      />
+
+      <div className="flex flex-wrap gap-3">
+        {generatingImg ? (
+          <CustomButton
+            type='outline'
+            title={'Generating...'}
+            customStyles='text-xs'
+          />) : (
+            <>
+              <CustomButton
+                type='outline'
+                title={'AI logo'}
+                handleClick={() => handleSubmit('logo')}
+                customStyles='text-xs'
+              />
+              <CustomButton
+                type='filled'
+                title={'AI Full'}
+                handleClick={() => handleSubmit('full')}
+                customStyles='text-xs'
+              />
+            </>
+          )}
+      </div>
     </div>
   )
 }

@@ -57,6 +57,25 @@ const Customizer = () => {
 
     try {
       //call backend to generate AI image
+
+      setGeneratingImg(true)
+
+      const response = await fetch('http://localhost:8080/api/v1/dalle', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          prompt,
+        })
+      })
+
+      const data = await response.json()
+
+      //this is how we render based on image received from dalle
+      handleDecals(type, `data:image/png;base64,${data.photo}`)
+
+
     } catch (error) {
       console.log(error);
     } finally{
@@ -67,7 +86,7 @@ const Customizer = () => {
     
   }
 
-  const handleDecals = (result, type) => {
+  const handleDecals = (type, result) => {
     const decalType = DecalTypes[type]
 
     state[decalType.stateProperty] = result
@@ -87,10 +106,11 @@ const Customizer = () => {
         break;
       case "stylishShirt":
         state.isFullTexture = !activeFilterTab[tabName]
-    
+        break;
       default:  
         state.isLogoTexture = true
         state.isFullTexture = false
+        break;
     }
 
     //After setting the state we need to set the active filter tab updated
@@ -107,7 +127,7 @@ const Customizer = () => {
   const readFile = (type) => {
     reader(file)
     .then((result) => {
-      handleDecals(result, type)
+      handleDecals(type, result)
       setActiveEditorTab('')
 
     })
