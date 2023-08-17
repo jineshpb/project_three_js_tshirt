@@ -77,7 +77,7 @@ const Customizer = () => {
 
 
     } catch (error) {
-      console.log(error);
+      console.log(error); 
     } finally{
       setGeneratingImg(false)
       setActiveEditorTab('')
